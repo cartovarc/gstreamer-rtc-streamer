@@ -6,7 +6,7 @@ import websockets
 
 
 from webrtc import WebRTC
-from webrtc import TestSource
+from webrtc import TestSource, RTSPSource
 from webrtc import FileSink,RTMPSink
 
 import gi
@@ -59,8 +59,8 @@ async def hello(websocket, path):
     def on_negotiation_needed(element):
         print('negotiation-needed', element)
 
-    source  = TestSource()
-
+    # source  = RTSPSource("rtsp://admin:compuaras19@192.168.100.187:554/cam/realmonitor?channel=1&subtype=0")
+    source = TestSource()
     rtc.add_stream(source)
 
     try:

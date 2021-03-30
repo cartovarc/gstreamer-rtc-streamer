@@ -46,11 +46,14 @@ class Source(Gst.Bin):
     def video_pad(self):
         raise 'need have video src pad'
 
+# gst-launch-1.0 rtspsrc location="rtsp://admin:compuaras19@192.168.100.187:554/cam/realmonitor?channel=1&subtype=0" ! queue ! rtpjitterbuffer latency=500 ! rtph264depay ! h264parse ! omxh264dec ! nvvidconv ! queue ! "video/x-raw(memory:NVMM), width=(int)640, height=(int)480, format=(string)I420" ! omxvp8enc control-rate=2 bitrate=150000 ! rtpvp8pay ! queue ! "application/x-rtp,media=video,encoding-name=VP8,payload=96,clock-rate=90000" ! queue ! decodebin ! autovideosink
 
-TEST_VIDEO_BIN_STR = '''
-videotestsrc ! videoconvert ! queue ! vp8enc deadline=1 ! rtpvp8pay !
-application/x-rtp,media=video,encoding-name=VP8,payload=97,clock-rate=90000 ! queue
-'''
+TEST_VIDEO_BIN_STR = "rtspsrc location=rtsp://admin:compuaras19@192.168.100.187:554/cam/realmonitor?channel=1&subtype=0 ! queue ! rtpjitterbuffer latency=500 ! rtph264depay ! h264parse ! omxh264dec ! nvvidconv ! queue ! video/x-raw(memory:NVMM), format=(string)I420 ! omxvp8enc control-rate=2 bitrate=150000 ! rtpvp8pay ! queue ! application/x-rtp,media=video,encoding-name=VP8,payload=96,clock-rate=90000 ! queue "
+
+# TEST_VIDEO_BIN_STR = '''
+# videotestsrc ! videoconvert ! queue ! vp8enc deadline=1 ! rtpvp8pay !
+# application/x-rtp,media=video,encoding-name=VP8,payload=96,clock-rate=90000 ! queue
+# '''
 
 TEST_AUDIO_BIN_STR = '''
 audiotestsrc wave=red-noise ! audioconvert ! audioresample ! queue ! opusenc ! rtpopuspay !

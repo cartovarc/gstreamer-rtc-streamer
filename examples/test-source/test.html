@@ -94,15 +94,16 @@
 
         socket.onopen = async () => {
 
-            const stream = await navigator.mediaDevices.getUserMedia({
-                audio: true,
-                video: true
-            });
-            console.debug("md::getUserMedia sucess",stream);
+            // const stream = await navigator.mediaDevices.getUserMedia({
+            //     audio: true,
+            //     video: true
+            // });
+            
+            //console.debug("md::getUserMedia sucess",stream);
             //Play it
-            addVideoForStream(stream,true);
+            //addVideoForStream(stream,true);
             // we add stream later 
-            pc.addStream(stream);
+            //pc.addStream(stream);
             // //Create new offer
             // const offer = await pc.createOffer({
             //     offerToReceiveAudio: true,
