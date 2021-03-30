@@ -46,9 +46,12 @@ class Source(Gst.Bin):
     def video_pad(self):
         raise 'need have video src pad'
 
-# gst-launch-1.0 rtspsrc location="rtsp://admin:compuaras19@192.168.100.187:554/cam/realmonitor?channel=1&subtype=0" ! queue ! rtpjitterbuffer latency=500 ! rtph264depay ! h264parse ! omxh264dec ! nvvidconv ! queue ! "video/x-raw(memory:NVMM), width=(int)640, height=(int)480, format=(string)I420" ! omxvp8enc control-rate=2 bitrate=150000 ! rtpvp8pay ! queue ! "application/x-rtp,media=video,encoding-name=VP8,payload=96,clock-rate=90000" ! queue ! decodebin ! autovideosink
+# gst-launch-1.0 rtspsrc location="rtsp://admin:compuaras19@192.168.100.187:554/cam/realmonitor?channel=1&subtype=0" ! queue ! rtpjitterbuffer latency=500 ! rtph264depay ! h264parse ! omxh264dec ! nvvidconv ! queue ! "video/x-raw(memory:NVMM), width=(int)640, height=(int)480, format=(string)I420" ! omxvp9enc control-rate=2 bitrate=150000 ! rtpvp9pay ! queue ! "application/x-rtp,media=video,encoding-name=VP9,payload=96,clock-rate=90000" ! queue ! decodebin ! autovideosink
 
-TEST_VIDEO_BIN_STR = "rtspsrc location=rtsp://admin:compuaras19@192.168.100.187:554/cam/realmonitor?channel=1&subtype=0 ! queue ! rtpjitterbuffer latency=500 ! rtph264depay ! h264parse ! omxh264dec ! nvvidconv ! queue ! video/x-raw(memory:NVMM), format=(string)I420 ! omxvp8enc control-rate=2 bitrate=150000 ! rtpvp8pay ! queue ! application/x-rtp,media=video,encoding-name=VP8,payload=96,clock-rate=90000 ! queue "
+# TEST_VIDEO_BIN_STR = "rtspsrc location=rtsp://admin:compuaras19@192.168.100.187:554/cam/realmonitor?channel=1&subtype=0 ! queue ! rtpjitterbuffer latency=500 ! rtph264depay ! h264parse ! omxh264dec ! nvvidconv ! queue ! video/x-raw(memory:NVMM), width=(int)1280, height=(int)720, format=(string)I420 ! omxvp9enc control-rate=2 bitrate=150000 ! rtpvp9pay ! queue ! application/x-rtp,media=video,encoding-name=VP9,payload=96,clock-rate=90000 ! queue "
+TEST_VIDEO_BIN_STR = "tcpclientsrc port=11112 host=192.168.100.203 do-timestamp=true ! h264parse ! omxh264dec ! nvvidconv ! queue ! omxvp9enc control-rate=2 bitrate=650000 ! rtpvp9pay ! queue ! application/x-rtp,media=video,encoding-name=VP9,payload=96,clock-rate=90000 ! queue "
+
+
 
 # TEST_VIDEO_BIN_STR = '''
 # videotestsrc ! videoconvert ! queue ! vp8enc deadline=1 ! rtpvp8pay !

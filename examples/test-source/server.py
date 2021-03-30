@@ -59,7 +59,7 @@ async def hello(websocket, path):
     def on_negotiation_needed(element):
         print('negotiation-needed', element)
 
-    # source  = RTSPSource("rtsp://admin:compuaras19@192.168.100.187:554/cam/realmonitor?channel=1&subtype=0")
+    # source  = RTSPSource("rtsp://admin:compuaras19@192.168.100.188:554/cam/realmonitor?channel=1&subtype=0")
     source = TestSource()
     rtc.add_stream(source)
 
